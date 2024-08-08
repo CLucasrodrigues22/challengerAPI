@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\DTO\CreateLocationDTO;
-use App\Http\Requests\StoreLocationRequest;
-use App\Http\Requests\UpdateLocationRequest;
+use App\DTO\{CreateLocationDTO,UpdateLocationDTO};
+use App\Http\Requests\{StoreLocationRequest, UpdateLocationRequest};
+use Illuminate\Http\{Request, JsonResponse};
 use App\Services\LocationService;
-use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
 
 class LocationController extends Controller
 {
@@ -49,7 +47,11 @@ class LocationController extends Controller
      */
     public function update(UpdateLocationRequest $request, int $id): JsonResponse
     {
-        return response()->json('ok');
+        $location = $this->locationService->update(
+            UpdateLocationDTO::makeFromRequest($request),
+            $id
+        );
+        return response()->json($location, $location['status_code']);
     }
 
     /**
@@ -57,6 +59,6 @@ class LocationController extends Controller
      */
     public function destroy(int $id): JsonResponse
     {
-        return response()->json('ok');
+        //
     }
 }

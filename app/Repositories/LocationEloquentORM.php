@@ -14,48 +14,68 @@ class LocationEloquentORM implements LocationRepositoryInterface
 
     public function getLocations(Request $request): array
     {
-        // if there are filter parameters in the request
-        $param = $request->input('name');
+        try{
+            // if there are filter parameters in the request
+            $param = $request->input('name');
 
-        if ($param) {
-            $location = $this->location
-                ->whereRaw('LOWER(name) LIKE ?', ['%' . strtolower($param) . '%'])
-                ->get()
-                ->toArray();
+            if ($param) {
+                $location = $this->location
+                    ->whereRaw('LOWER(name) LIKE ?', ['%' . strtolower($param) . '%'])
+                    ->get()
+                    ->toArray();
 
-            if (empty($location)) {
+                if (empty($location)) {
+                    return [
+                        'message' => 'No location found with the specified name.',
+                        'status_code' => 404
+                    ];
+                }
+
                 return [
-                    'message' => 'No location found with the specified name.',
-                    'status_code' => 404
+                    'location' => $location,
+                    'status_code' => 200
                 ];
             }
 
+            // return all locations
             return [
-                'location' => $location,
+                'location' => $this->location->all()->toArray(),
                 'status_code' => 200
             ];
+        } catch (\Exception $exception) {
+            // creating an error log with description
+            Log::channel('logExceptions')->error($exception->getMessage(), ['exception' => $exception]);
+            // friendly error message
+            return [
+                'message' => 'An error occurred in the listing of the locations.',
+                'status_code' => 500,
+            ];
         }
-
-        // return all locations
-        return [
-            'location' => $this->location->all()->toArray(),
-            'status_code' => 200
-        ];
     }
 
     public function getLocationById(int $id): array|null
     {
-        $location = $this->location->find($id);
-        if (empty($location)) {
+        try{
+            $location = $this->location->find($id);
+            if (empty($location)) {
+                return [
+                    'message' => 'No location found with the specified id.',
+                    'status_code' => 404
+                ];
+            }
             return [
-                'message' => 'No location found with the specified id.',
-                'status_code' => 404
+                'location' => $location,
+                'status_code' => 200
+            ];
+        } catch (\Exception $exception) {
+            // creating an error log with description
+            Log::channel('logExceptions')->error($exception->getMessage(), ['exception' => $exception]);
+            // friendly error message
+            return [
+                'message' => 'An error occurred in the listing of the location selected.',
+                'status_code' => 500,
             ];
         }
-        return [
-            'location' => $location,
-            'status_code' => 200
-        ];
     }
 
     public function createLocation(CreateLocationDTO $dto): array
@@ -76,15 +96,35 @@ class LocationEloquentORM implements LocationRepositoryInterface
             // friendly error message
             return [
                 'message' => 'An error occurred in the creation of the location.',
-                'status_code' => 201,
+                'status_code' => 500,
             ];
         }
     }
 
-    public function updateLocation(UpdateLocationDTO $dto): array
+    public function updateLocation(UpdateLocationDTO $dto, int $id): array
     {
-        return [
-            'status_code' => 200
-        ];
+        try{
+            $location = $this->location->find($id);
+            if (empty($location)) {
+                return [
+                    'message' => 'No location found with the specified id.',
+                    'status_code' => 404
+                ];
+            }
+            $attributes = (array) $dto;
+            $location->fill($attributes)->save();
+            return [
+                'message' => 'Location successfully updated.',
+                'status_code' => 200
+            ];
+        } catch (\Exception $exception) {
+            // creating an error log with description
+            Log::channel('logExceptions')->error($exception->getMessage(), ['exception' => $exception]);
+            // friendly error message
+            return [
+                'message' => 'An error occurred in the updated of the location.',
+                'status_code' => 500,
+            ];
+        }
     }
 }
