@@ -52,6 +52,13 @@ return [
 
     'channels' => [
 
+        'logExceptions' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/logExceptions.log'),
+            'level' => 'error',
+            'days' => 30,  // how many days log files should be kept
+        ],
+
         'stack' => [
             'driver' => 'stack',
             'channels' => explode(',', env('LOG_STACK', 'single')),
