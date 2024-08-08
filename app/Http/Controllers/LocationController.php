@@ -40,7 +40,8 @@ class LocationController extends Controller
      */
     public function show(int $id): JsonResponse
     {
-        return response()->json('ok');
+        $location = $this->locationService->getById($id);
+        return response()->json($location, $location['status_code']);
     }
 
     /**

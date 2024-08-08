@@ -15,6 +15,11 @@ class LocationService
     {
         return $this->locationsRepository->getLocations($request);
     }
+
+    public function getById(int $id): array|null
+    {
+        return $this->locationsRepository->getLocationById($id);
+    }
     public function create(CreateLocationDTO $dto): array
     {
         // create a new city using a city repository and return to controller

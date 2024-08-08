@@ -43,6 +43,21 @@ class LocationEloquentORM implements LocationRepositoryInterface
         ];
     }
 
+    public function getLocationById(int $id): array|null
+    {
+        $location = $this->location->find($id);
+        if (empty($location)) {
+            return [
+                'message' => 'No location found with the specified id.',
+                'status_code' => 404
+            ];
+        }
+        return [
+            'location' => $location,
+            'status_code' => 200
+        ];
+    }
+
     public function createLocation(CreateLocationDTO $dto): array
     {
         try {
