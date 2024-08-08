@@ -48,6 +48,41 @@ class LocationController extends Controller
     }
 
     /**
+     * @OA\Get(
+     *     tags={"locations"},
+     *     path="/api/v1/locations/{id}",
+     *     summary="Get a location by id",
+     *     description="Get a location by id parameter",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID of the location",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Location info list"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="No location found with the specified id."
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="An error occurred in the listing of the locations."
+     *     )
+     * )
+     */
+    public function show(int $id): JsonResponse
+    {
+        $location = $this->locationService->getById($id);
+        return response()->json($location, $location['status_code']);
+    }
+
+    /**
      * @OA\Post(
      *     tags={"locations"},
      *     path="/v1/location",
@@ -110,41 +145,6 @@ class LocationController extends Controller
         );
 
         return response()->json($locations, $locations['status_code']);
-    }
-
-    /**
-     * @OA\Get(
-     *     tags={"locations"},
-     *     path="/api/v1/locations/{id}",
-     *     summary="Get a location by id",
-     *     description="Get a location by id parameter",
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         description="ID of the location",
-     *         required=true,
-     *         @OA\Schema(
-     *             type="integer"
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="Location info list"
-     *     ),
-     *     @OA\Response(
-     *         response=404,
-     *         description="No location found with the specified id."
-     *     ),
-     *     @OA\Response(
-     *         response=500,
-     *         description="An error occurred in the listing of the locations."
-     *     )
-     * )
-     */
-    public function show(int $id): JsonResponse
-    {
-        $location = $this->locationService->getById($id);
-        return response()->json($location, $location['status_code']);
     }
 
     /**
