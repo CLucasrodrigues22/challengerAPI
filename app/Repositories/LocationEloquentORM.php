@@ -3,13 +3,45 @@
 namespace App\Repositories;
 
 use App\DTO\{CreateLocationDTO, UpdateLocationDTO};
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Models\Location;
 
 class LocationEloquentORM implements LocationRepositoryInterface
 {
-    public function __construct(protected Location $city)
+    public function __construct(protected Location $location)
     {}
+
+    public function getLocations(Request $request): array
+    {
+        // if there are filter parameters in the request
+        $param = $request->input('name');
+
+        if ($param) {
+            $location = $this->location
+                ->whereRaw('LOWER(name) LIKE ?', ['%' . strtolower($param) . '%'])
+                ->get()
+                ->toArray();
+
+            if (empty($location)) {
+                return [
+                    'message' => 'No location found with the specified name.',
+                    'status_code' => 404
+                ];
+            }
+
+            return [
+                'location' => $location,
+                'status_code' => 200
+            ];
+        }
+
+        // return all locations
+        return [
+            'location' => $this->location->all()->toArray(),
+            'status_code' => 200
+        ];
+    }
 
     public function createLocation(CreateLocationDTO $dto): array
     {
@@ -17,7 +49,7 @@ class LocationEloquentORM implements LocationRepositoryInterface
             // convert the $dto to an array
             $attributes = (array) $dto;
 
-            $location = $this->city->create($attributes);
+            $location = $this->location->create($attributes);
 
             return [
                 'message' => 'Location successfully created.',
