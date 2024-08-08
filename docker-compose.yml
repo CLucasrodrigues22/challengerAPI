@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+    # api
+    api:
+        container_name: api
+        build:
+            context: .
+            dockerfile: Dockerfile
+        restart: always
+        working_dir: /var/www
+
+        volumes:
+            - ./:/var/www
+            - ./Docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+        depends_on:
+            - db
+            - httpserver
+
+    # postgreSQL
+    db:
+        container_name: postgres
+        image: postgres:latest
+        restart: always
+        environment:
+            POSTGRES_DB: $DB_DATABASE
+            POSTGRES_PASSWORD: $DB_PASSWORD
+            POSTGRES_HOST_AUTH_METHOD: trust
+            PGDATA: /data/postgres
+        volumes:
+            - postgres:/var/lib/postgresql/data
+        ports:
+            - "5432:5432"
+
+    # nginx
+    httpserver:
+        container_name: nginxServer
+        image: nginx:alpine
+        restart: always
+        ports:
+            - "80:80"
+            - "443:443"
+        volumes:
+            - ./:/var/www
+            - ./Docker/nginx/conf.d/:/etc/nginx/conf.d
+
+volumes:
+    postgres:
+    cache:
+        driver: local
