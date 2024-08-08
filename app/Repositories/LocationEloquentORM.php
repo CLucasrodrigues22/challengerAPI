@@ -11,13 +11,13 @@ class LocationEloquentORM implements LocationRepositoryInterface
     public function __construct(protected Location $city)
     {}
 
-    public function createCity(CreateLocationDTO $dto): array
+    public function createLocation(CreateLocationDTO $dto): array
     {
         try {
             // convert the $dto to an array
             $attributes = (array) $dto;
 
-            $city = $this->city->create($attributes);
+            $location = $this->city->create($attributes);
 
             return [
                 'message' => 'Location successfully created.',
@@ -34,7 +34,7 @@ class LocationEloquentORM implements LocationRepositoryInterface
         }
     }
 
-    public function updateCity(UpdateLocationDTO $dto): array
+    public function updateLocation(UpdateLocationDTO $dto): array
     {
         return [
             'status_code' => 200
