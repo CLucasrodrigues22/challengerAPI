@@ -9,8 +9,7 @@ use App\Models\Location;
 
 class LocationEloquentORM implements LocationRepositoryInterface
 {
-    public function __construct(protected Location $location)
-    {}
+    public function __construct(protected Location $location){}
 
     public function getLocations(Request $request): array
     {
@@ -53,7 +52,7 @@ class LocationEloquentORM implements LocationRepositoryInterface
         }
     }
 
-    public function getLocationById(int $id): array|null
+    public function getLocationById(int $id): array
     {
         try{
             $location = $this->location->find($id);
@@ -123,6 +122,32 @@ class LocationEloquentORM implements LocationRepositoryInterface
             // friendly error message
             return [
                 'message' => 'An error occurred in the updated of the location.',
+                'status_code' => 500,
+            ];
+        }
+    }
+
+    public function deleteLocation(int $id): array
+    {
+        try {
+            $location = $this->location->find($id);
+            if (empty($location)) {
+                return [
+                    'message' => 'No location found with the specified id.',
+                    'status_code' => 404
+                ];
+            }
+            $location->delete();
+            return [
+                'message' => 'Location successfully deleted.',
+                'status_code' => 200
+            ];
+        } catch (\Exception $exception) {
+            // creating an error log with description
+            Log::channel('logExceptions')->error($exception->getMessage(), ['exception' => $exception]);
+            // friendly error message
+            return [
+                'message' => 'An error occurred in the deleted of the location.',
                 'status_code' => 500,
             ];
         }

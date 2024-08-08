@@ -59,6 +59,7 @@ class LocationController extends Controller
      */
     public function destroy(int $id): JsonResponse
     {
-        //
+        $location = $this->locationService->delete($id);
+        return response()->json($location, $location['status_code']);
     }
 }

@@ -16,7 +16,7 @@ class LocationService
     {
         return $this->locationsRepository->getLocations($request);
     }
-    public function getById(int $id): array|null
+    public function getById(int $id): array
     {
         return $this->locationsRepository->getLocationById($id);
     }
@@ -31,4 +31,8 @@ class LocationService
         return $this->locationsRepository->updateLocation($dto, $id);
     }
 
+    public function delete(int $id): array
+    {
+        return $this->locationsRepository->deleteLocation($id);
+    }
 }
