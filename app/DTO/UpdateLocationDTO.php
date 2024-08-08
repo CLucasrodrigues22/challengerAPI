@@ -16,6 +16,7 @@ class UpdateLocationDTO
 
     public static function makeFromRequest(UpdateLocationRequest $request): self
     {
+        // encapsulating the data needed to update a city
         return new self(
             $request->name,
             $request->slug,
