@@ -35,7 +35,7 @@ with a focus on showing knowledge of the required technologies.
 - First, clone this repository on your machine:
 
 ```
-git clone https://github.com/CLucasrodrigues22/gooportunities.git
+git clone https://github.com/CLucasrodrigues22/challengerAPI.git
 ```
 
 - Open a new terminal windows at the root of the project and create an .env based on the .env.example:
