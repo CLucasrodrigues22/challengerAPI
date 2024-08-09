@@ -19,7 +19,7 @@ with a focus on showing knowledge of the required technologies.
 
 ### Requirements
 
-#### To run go oportunities api on your machine, it must meet the following requirements:
+#### To run challengerAPI on your machine, it must meet the following requirements:
 
 
 - [PHP 8.3](https://www.php.net/downloads)
