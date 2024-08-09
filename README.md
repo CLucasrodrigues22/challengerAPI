@@ -116,7 +116,7 @@ php artisan l5-swagger:generate
 - `./Docker`: Initialization files needed for docker containers.
 - `./storage/api-docs`: Json file with settings for the swagger.
 - `./storage/logs`: Files with the exceptions for each method in the repository, used for evaluations.
-- `./tests/Unit`: Unit tests for methods.
+- `./tests/App/`: Unit tests for methods.
 
 
 
