@@ -95,7 +95,7 @@ php artisan l5-swagger:generate
 
 ### API endpoints
 
-> **Obs:** For a better documentation of the api, [swagger](https://github.com/DarkaOnLine/L5-Swagger) was used, use the route on the browser: `http://localhost/api/documentation` to view more details.
+> **Obs:** For a better documentation of the api, [swagger](https://github.com/DarkaOnLine/L5-Swagger) was used, use the route on the browser: [link](http://localhost/api/documentation) to view more details.
 
 **Endpoint List Locations:** `GET /api/v1/locations` **Obs:** Returns a list of all locations and filter result with 'name' parameter in JSON. <br/>
 **Endpoint List Only Opening:** `GET /api/v1/locations?id={id}` **Obs:** Return a location by id in JSON. <br/>
