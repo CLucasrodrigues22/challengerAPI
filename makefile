@@ -12,7 +12,9 @@ run-docker-up:
 	php artisan migrate && \
 	php artisan key:generate && \
 	php artisan db:seed --class=LocationSeeder && \
-	php artisan l5-swagger:generate"
+	php artisan l5-swagger:generate && \
+	php artisan migrate --env=testing && \
+	php artisan test"
 
 test:
 	@php artisan test
