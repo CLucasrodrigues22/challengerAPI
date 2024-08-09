@@ -98,10 +98,10 @@ php artisan l5-swagger:generate
 > **Obs:** For a better documentation of the api, [swagger](https://github.com/DarkaOnLine/L5-Swagger) was used, use the route on the browser: [link](http://localhost/api/documentation) to view more details.
 
 **Endpoint List Locations:** `GET /api/v1/locations` **Obs:** Returns a list of all locations and filter result with 'name' parameter in JSON. <br/>
-**Endpoint List Only Opening:** `GET /api/v1/locations?id={id}` **Obs:** Return a location by id in JSON. <br/>
-**Endpoint Create New Opening:** `POST /api/v1/locations` **Obs:** Create a new location. <br/>
-**Endpoint Update Opening:** `PUT /api/v1/locations/{id}` **Obs:** Update a location by id. <br/>
-**Endpoint Delete Opening:** `DELETE /api/v1/locations/{id}` **Obs:** Delete a location by id. <br/>
+**Endpoint List Only Location:** `GET /api/v1/locations?id={id}` **Obs:** Return a location by id in JSON. <br/>
+**Endpoint Create New Location:** `POST /api/v1/locations` **Obs:** Create a new location. <br/>
+**Endpoint Update Location:** `PUT /api/v1/locations/{id}` **Obs:** Update a location by id. <br/>
+**Endpoint Delete Location:** `DELETE /api/v1/locations/{id}` **Obs:** Delete a location by id. <br/>
 
 
 ### Project structure
